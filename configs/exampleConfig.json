@@ -1,0 +1,8 @@
+[
+  {
+    "scriptName": "exampleScriptOne",
+    "scenarioName": "singleRun",
+    "thresholds": "standard",
+    "data": "example"
+  }
+]
