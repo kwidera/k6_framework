@@ -55,7 +55,7 @@ export class BaseClass {
 
   extractEndpointName(url) {
     if (url.slice(-1) === '/') {
-      url = url.slice(0, -1)
+      url = url.slice(0, -1);
     }
     const match = url.match(/\/(\w+)(\?|$)/);
     return match ? match[1] : null;

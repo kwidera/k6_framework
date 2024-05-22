@@ -12,7 +12,6 @@ if (__ENV.CONFIG_FILES) {
 const configFiles = JSON.parse(open('./load_config.json'));
 let config = new Config(configFiles);
 const [scenarios, thresholds, data] = config.getConfig();
-let setupData = new Data(__ENV.URL, data);
 
 export const options = {
   scenarios: scenarios,
@@ -21,6 +20,8 @@ export const options = {
 
 export function setup() {
   console.info('Executing setup');
+
+  let setupData = new Data(__ENV.URL, data);
 
   return setupData.getData();
 }

@@ -1,0 +1,21 @@
+{
+  "name": "k6_framework",
+  "version": "0.0.2",
+  "description": "Template repostitory",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "k6 run main.js -e CONFIG_FILES=configs/exampleConfig.json -e URL=https://test-api.k6.io",
+    "eslint": "npx eslint .",
+    "eslint:fix": "npx eslint . --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/k6": "^0.45.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.1.0"
+  }
+}

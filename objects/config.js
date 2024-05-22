@@ -15,26 +15,26 @@ export class Config {
       try {
         const config = JSON.parse(open(file));
         for (const c of config) {
-          Object.assign(this.scenarios, this.getSceanrios(c));
-          Object.assign(this.thresholds, this.getThresholds(c));
-          this.data.push(c.data);
-        };
+          Object.assign(this.scenarios, this._getSceanrios(c));
+          Object.assign(this.thresholds, this._getThresholds(c));
+          this.data.push(...c.data.split(','));
+        }
       } catch (e) {
         console.error(`${file}: no such file`);
-      };
-    };
+      }
+    }
     return [this.scenarios, this.thresholds, Array.from(new Set(this.data))];
   }
-  
-  getThresholds(config) {
+
+  _getThresholds(config) {
     return thresholds[config.thresholds];
-  };
-  
-  getSceanrios(config) {
+  }
+
+  _getSceanrios(config) {
     let scenario = scenarios[config.scenarioName];
     scenario.exec = config.scriptName;
     return {
-      [config.scriptName]: scenario
+      [config.scriptName]: scenario,
     };
-  };
+  }
 }
