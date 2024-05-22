@@ -1,11 +1,11 @@
 import http from 'k6/http';
 import { describe, expect } from '../common/chaiUtils.js';
 
-export class BaseClass {
+export class Requests {
   constructor(url) {
     this.url = url;
     this.response;
-    this.user = 'base';
+    this.user = 'core';
     this.headers = {};
   }
 
@@ -13,11 +13,11 @@ export class BaseClass {
     params.headers = Object.assign(this.headers, params.headers);
     params.tags = {
       user: this.user,
-      endpoint: this.extractEndpointName(url),
+      endpoint: this._extractEndpointName(url),
     };
     describe(description, () => {
       this.response = http.get(url, params);
-      this.chaiExpect(expectedStatus, keyList);
+      this._chaiExpect(expectedStatus, keyList);
     });
   }
 
@@ -25,27 +25,27 @@ export class BaseClass {
     params.headers = Object.assign(this.headers, params.headers);
     params.tags = {
       user: this.user,
-      endpoint: this.extractEndpointName(url),
+      endpoint: this._extractEndpointName(url),
     };
     describe(description, () => {
       this.response = http.post(url, payload, params);
-      this.chaiExpect(expectedStatus, keyList);
+      this._chaiExpect(expectedStatus, keyList);
     });
   }
 
   put(url, payload, description, expectedStatus, keyList, params) {
-    params.headers = Object.assign(this.header, params.headers);
+    params.headers = Object.assign(this.headers, params.headers);
     params.tags = {
       user: this.user,
-      endpoint: this.extractEndpointName(url),
+      endpoint: this._extractEndpointName(url),
     };
     describe(description, () => {
       this.response = http.put(url, payload, params);
-      this.chaiExpect(expectedStatus, keyList);
+      this._chaiExpect(expectedStatus, keyList);
     });
   }
 
-  chaiExpect(expectedStatus, keyList) {
+  _chaiExpect(expectedStatus, keyList) {
     expect(this.response.status, 'Response status').to.equal(expectedStatus);
     expect(this.response).to.have.validJsonBody();
     if (keyList.length != 0) {
@@ -53,12 +53,17 @@ export class BaseClass {
     }
   }
 
-  extractEndpointName(url) {
-    if (url.slice(-1) === '/') {
-      url = url.slice(0, -1);
+  _extractEndpointName(url) {
+    const modifiedUrl = url.split('?')[0];
+    const regex = /\/([^/]+)/g;
+    let match;
+    const matches = [];
+
+    while ((match = regex.exec(modifiedUrl)) !== null && isNaN(match[1])) {
+      matches.push(match[1]);
     }
-    const match = url.match(/\/(\w+)(\?|$)/);
-    return match ? match[1] : null;
+
+    return matches[matches.length - 1];
   }
 
   getResponse() {

@@ -1,6 +1,6 @@
-import { BaseClass } from './baseClass.js';
+import { Requests } from './requests.js';
 
-export class Crocodile extends BaseClass {
+export class Crocodile extends Requests {
   constructor(url) {
     super(url);
     this.user = 'crocodile';
