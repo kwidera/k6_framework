@@ -1,7 +1,7 @@
-import { BaseClass } from './baseClass.js';
+import { Requests } from './requests.js';
 import exec from 'k6/execution';
 
-export class Data extends BaseClass {
+export class Data extends Requests {
   constructor(url, data) {
     super(url);
     this.data = data;
